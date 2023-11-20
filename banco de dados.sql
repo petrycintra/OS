@@ -10,6 +10,32 @@
 CREATE DATABASE IF NOT EXISTS `laravel` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `laravel`;
 
+CREATE TABLE IF NOT EXISTS `clientes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cpf` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cnpj` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefone` bigint NOT NULL,
+  `cep` int DEFAULT NULL,
+  `ruaav` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `complemento` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cidade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `clientes_email_unique` (`email`),
+  UNIQUE KEY `clientes_cpf_unique` (`cpf`),
+  UNIQUE KEY `clientes_cnpj_unique` (`cnpj`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `clientes` (`id`, `name`, `email`, `cpf`, `cnpj`, `telefone`, `cep`, `ruaav`, `complemento`, `cidade`, `estado`, `tipo`, `email_verified_at`, `created_at`, `updated_at`) VALUES
+	(1, 'Petry Cintra Amaral', NULL, NULL, '40664315000118', 73998338653, NULL, NULL, NULL, NULL, NULL, 'PJ', NULL, '2023-11-01 04:59:57', '2023-11-02 06:05:26'),
+	(2, 'Petry Cintra Amaral', NULL, NULL, NULL, 73998338653, NULL, NULL, NULL, NULL, NULL, 'PF', NULL, '2023-11-01 05:00:14', '2023-11-02 21:29:57');
+
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -36,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(23, '2014_10_12_000000_create_users_table', 1),
@@ -45,7 +71,31 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(26, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 	(27, '2023_10_17_014410_create_inicios_table', 1),
 	(28, '2023_10_18_041527_create_registros_table', 1),
-	(30, '2023_10_26_160240_create_produtos_table', 2);
+	(30, '2023_10_26_160240_create_produtos_table', 2),
+	(37, '2023_10_31_235459_create_clientes_table', 3),
+	(38, '2023_11_01_153548_create_servicos_table', 4),
+	(40, '2023_10_26_160240_create_ordens_table', 5),
+	(43, '2023_10_26_160240_create_ordems_table', 6),
+	(44, '2023_10_26_16024_create_ordems_table', 7);
+
+CREATE TABLE IF NOT EXISTS `ordems` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `equipamento` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `servico` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `valor` double(8,2) DEFAULT NULL,
+  `prazo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `responsavel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `ordems` (`id`, `name`, `tipo`, `equipamento`, `servico`, `descricao`, `valor`, `prazo`, `status`, `responsavel`, `created_at`, `updated_at`) VALUES
+	(1, 'Petry Cintra Amaral', 'PJ', 'PC Redragon', 'Formatação', 'Instalação do Windows', 79.99, '1 Dias', 'Aguardando Aprovação', 'Julie Hevellyn de Oliveira', '2023-11-03 23:37:53', '2023-11-17 05:29:19');
 
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -72,28 +122,6 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `produtos` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `equipamento` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `servico` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `valor` double(8,2) NOT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `produtos` (`id`, `nome`, `equipamento`, `servico`, `valor`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 'Petry Amaral', 'PC Redragon', 'Formatação', 75.00, 'Aprovado', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(2, 'Julie Oliveira', 'Notebook Samsung', 'Formatação', 75.00, 'Aprovado', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(3, 'Yngra Amaral', 'Notebook Acer', 'Backup', 30.00, 'Aprovado', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(4, 'Adelson Marques', 'PC Dell', 'Backup', 30.00, 'Aguardando Aprovação', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(5, 'Maycon Marques', 'Smartphone Xiaomi', 'Reset', 90.00, 'Em analise/Orçamento', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(6, 'Nome Teste', 'Notebook Positivo', 'Troca de HD', 80.00, 'Em analise/Orçamento', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(7, 'Teste Nome', 'PC Multilaser', 'Formatação', 75.00, 'Aprovado', '2023-10-26 16:10:12', '2023-10-26 16:10:13'),
-	(8, 'Neblino Cintra', 'Notebook Asus', 'Troca de Tela', 150.00, 'Em analise/Orçamento', '2023-10-26 16:10:12', '2023-10-26 16:10:13');
-
 CREATE TABLE IF NOT EXISTS `registros` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` date NOT NULL,
@@ -112,6 +140,21 @@ INSERT INTO `registros` (`name`, `data`, `entrada`, `intervalo`, `volta`, `final
 	('Petry Cintra Amaral', '2023-10-20', '2023-10-20 21:57:27', '2023-10-20 21:57:29', '2023-10-20 21:57:30', '2023-10-20 21:57:31', 4),
 	('Petry Cintra Amaral', '2023-10-21', '2023-10-21 22:35:49', '2023-10-21 22:35:55', '2023-10-21 22:35:56', '2023-10-21 22:35:58', 4);
 
+CREATE TABLE IF NOT EXISTS `servicos` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descricao` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `valor` double(8,2) NOT NULL,
+  `prazo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `servicos` (`id`, `name`, `descricao`, `valor`, `prazo`, `created_at`, `updated_at`) VALUES
+	(1, 'Formatação', 'Instalação do Windows', 79.99, '1', '2023-11-01 19:12:54', '2023-11-02 22:05:42'),
+	(3, 'Formatação com backup', 'Instalação do Windows salvando os arquivos pessoais', 99.99, '2', '2023-11-02 22:00:53', '2023-11-03 04:53:32');
+
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -127,11 +170,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `position`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Petry Cintra Amaral', 'Gerente', 'petry@regponto.com', '2023-10-19 01:22:00', '$2y$10$Ezc.rYxspHMZejJ/jrvO9.ibSmmrX2Y8viGoQB2V0WAqHxeI3Spt.', 'bnyzXGREvuKN4wBKjThEhnGQxntEErrMB2BrcRVvjHGdFcB5I0EBsvAWEA82', '2023-10-19 01:22:00', '2023-10-21 03:41:33'),
-	(2, 'Julie Hevellyn de Oliveira', 'Jornalista', 'julie@regponto.com', '2023-10-19 01:22:00', '$2y$10$U8/Qf0I.jguLDR2cTUUZ1uBb/4GXvAjnioYigTsLY0eHb61Oj1xvu', 'bYZelJHhR4k7ljCtwlx0hwtT72Xeofpdy6vtTEgzPoSqYeSrUDMyjeqmbFQZ', '2023-10-19 01:22:00', '2023-10-21 04:09:51'),
-	(3, 'Yngra Cintra Amaral', 'Gestao-RH', 'yngra@regponto.com', '2023-10-19 01:22:00', '$2y$10$p1HetbCUGj1xE07mvWi3Y.TWAJ56irN410SJpn409mS.vd/7zErLa', 'wefot5tne1sgVacIdnyimmH50yz0FEzKgQgnVH5BUsOTCrXB7mtbitMf7CjG', '2023-10-19 01:22:00', '2023-10-21 01:49:27'),
-	(4, 'Arya De Oliveira', 'Mascote', 'arya@regponto.com', '2023-10-19 01:22:00', '$2y$10$iWd7xDgcAJxwRldKDWZDT..96aT1ig4y/ci.vcV9tIqxJBbHS8U4C', 'SipMC75FFu', '2023-10-19 01:22:00', '2023-10-19 01:22:00'),
-	(5, 'Neblino Cintra', 'Mascote', 'neblino@regponto.com', '2023-10-19 01:22:00', '$2y$10$fftFgPY4zOgyOO8fmf4ncu2KhLuS8rXJJq0l/UxrR3Iby2h2BxwoG', 'TcCOppohmK', '2023-10-19 01:22:00', '2023-10-19 01:22:00');
+	(1, 'Petry Cintra Amaral', 'Gerente', 'petry@os.com', '2023-10-19 01:22:00', '$2y$10$Ezc.rYxspHMZejJ/jrvO9.ibSmmrX2Y8viGoQB2V0WAqHxeI3Spt.', 'jEjpOWSP4DmZj0qqQPMhQl9qKaDtRWbbqQvk6IEOUWAYNapMA1mi9VC2IQyO', '2023-10-19 01:22:00', '2023-10-21 03:41:33');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
